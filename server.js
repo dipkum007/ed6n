@@ -39,6 +39,14 @@ var coursesData = [
         topic: 'Node.js',
         url: 'https://codingthesmartway.com/courses/nodejs-express-mongodb/'
     },
+        {
+        id: 1,
+        title: 'Node.js, Express & MongoDB Dev to Deployment',
+        author: 'dipak',
+        description: 'Learn by example building & deploying real-world Node.js applications from absolute scratch',
+        topic: 'Node.js',
+        url: 'https://codingthesmartway.com/courses/nodejs-express-mongodb/'
+    },
 
 ];
 
@@ -68,6 +76,10 @@ var updateCourseTopic = function({id, topic}) {
             return course;
         }
     });
+    console.log(23);
+     console.log(coursesData.filter(course => course.id === id)[1]);
+     console.log(coursesData.filter(course => course.id === id)[0]);
+
     return coursesData.filter(course => course.id === id) [0];
 };
 

@@ -9,7 +9,4 @@ git remote add origin https://github.com/dipkum007/ed6n.git : to first time push
 $ git remote -v
 # Verifies the new remote URL
 
-
-
- git push origin master
-# Pu
+git push origin master
