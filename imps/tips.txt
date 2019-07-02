@@ -1,0 +1,15 @@
+git init
+git add .
+git commit -m "First commit"
+
+$ git remote add origin remote repository URL
+# Sets the new remote
+git remote add origin https://github.com/dipkum007/ed6n.git : to first time push your project
+
+$ git remote -v
+# Verifies the new remote URL
+
+
+
+ git push origin master
+# Pu
