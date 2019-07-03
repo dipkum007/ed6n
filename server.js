@@ -1,6 +1,15 @@
 var express = require('express');
 var express_graphql = require('express-graphql');
-var { buildSchema } = require('graphql');
+var {buildSchema} = require('graphql');
+
+
+const cassandra = require('cassandra-driver');
+const client = new cassandra.Client({
+    contactPoints: ["127.0.0.1"],
+    localDataCenter: 'datacenter1',
+    keyspace: 'iqcloud'
+});
+
 
 // GraphQL schema
 var schema = buildSchema(`
@@ -33,13 +42,13 @@ var coursesData = [
     },
     {
         id: 2,
-        title: 'Node.js, Express & MongoDB Dev to Deployment',
+        title: 'Node.js, Express & MongoDB Dev to Deploymensdt',
         author: 'Brad Traversy',
         description: 'Learn by example building & deploying real-world Node.js applications from absolute scratch',
         topic: 'Node.js',
         url: 'https://codingthesmartway.com/courses/nodejs-express-mongodb/'
     },
-        {
+    {
         id: 1,
         title: 'Node.js, Express & MongoDB Dev to Deployment',
         author: 'dipak',
@@ -50,14 +59,39 @@ var coursesData = [
 
 ];
 
-var getCourse = function(args) {
+var cass = function () {
+
+    const query = 'SELECT * from iqcloud.panel_details limit 1';
+// var data = client.execute(query)
+//   .then(result => console.log('User with email %s', result.rows[0].imei));
+
+
+    let userInfo = client.execute(query);
+    Promise.all([userInfo])
+        .then(values => {
+                return values;
+            });
+
+};
+
+var getCourse = function (args) {
     var id = args.id;
     return coursesData.filter(course => {
+
+        var values = cass();
+        console.log(values);
+
+        if (values[0]) {
+            gacode = values[0].rows[0].imei;
+            console.log('sdkl');
+            console.log(gacode);
+        }
         return course.id === id;
+
     })[0];
 };
 
-var getCourses = function(args) {
+var getCourses = function (args) {
     if (args.topic) {
         var topic = args.topic;
         return coursesData.filter(course => course.topic === topic);
@@ -67,7 +101,7 @@ var getCourses = function(args) {
 };
 
 
-var updateCourseTopic = function({id, topic}) {
+var updateCourseTopic = function ({id, topic}) {
     coursesData.map(course => {
         if (course.id === id) {
             course.topic = topic;
@@ -77,8 +111,8 @@ var updateCourseTopic = function({id, topic}) {
         }
     });
     console.log(23);
-     console.log(coursesData.filter(course => course.id === id)[1]);
-     console.log(coursesData.filter(course => course.id === id)[0]);
+    console.log(coursesData.filter(course => course.id === id)[1]);
+    console.log(coursesData.filter(course => course.id === id)[0]);
 
     return coursesData.filter(course => course.id === id) [0];
 };
